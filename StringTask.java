@@ -18,16 +18,11 @@ private String str;
 		return str.toCharArray();
 		}
 	public char penultimateChar(){
-		try{
 		if(str==null||str.length()<2){
-			throw new IllegalArgumentException("String is too short to find the penultimate character.");
+			return '\0';
 			}
 		return str.charAt(str.length()-2);
 		}
-		
-		catch(IllegalArgumentException e){
-			return '\0';}
-			}
 	public int noOfOccurences(char character){
 		int noOfOcc=0;
 		for(int i=0;i<str.length();i++){
@@ -56,22 +51,13 @@ private String str;
 			return str;
 			}
 	public String replace(String replaced) {
-    
-   	 if (str.length() < 3) {
-        	return null;
-    }
-    	if (replaced.length() > 3) {
-        	if (str.length() == 3) {
-            	return replaced.substring(0, 3);
-        } 	else {
-            		return replaced.substring(0, 3) + str.substring(3);
-        }
-    }
-    return replaced + str.substring(replaced.length());
-
-
-    }
-			
+   		if (str.length() < 3){return null;}
+    		if (replaced.length() > 3) {
+        		if (str.length() == 3) {return replaced.substring(0, 3);}
+        		else{return replaced.substring(0, 3) + str.substring(3);}
+    		}
+    		return replaced + str.substring(replaced.length());
+    	}		
 	public boolean endWith(String ends){
 		return str.endsWith(ends);
 		}
@@ -94,7 +80,8 @@ private String str;
 		return str.replace(" ","");
 		}
 	public String[] convertToStringArr(){
-		return str.split(" ");}
+		return str.split(" ");
+		}
 	public static boolean compareIncludeCase(String firstString,String SecondString){
 		return firstString.equals(SecondString);
 		}
