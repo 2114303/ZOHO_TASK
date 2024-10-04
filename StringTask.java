@@ -1,7 +1,11 @@
 package com.zoho.task;
 import java.util.*;
+import java.util.regex.Pattern;
 public class StringTask{
 private String str;
+	public static boolean stringIsEmpty(String givenString){
+		return givenString.isEmpty();
+		}
 	public StringTask(String str){
 		this.str=str;
 	}
@@ -12,18 +16,18 @@ private String str;
 		return str; 
 		}
 	public int getLength(){
-		return str.length();
+		return (str!=null)? str.length():0;
 		}
 	public char[] convertToArr(){
-		return str.toCharArray();
+		return (str!=null)? str.toCharArray():new char[0];
 		}
 	public char penultimateChar(){
-		if(str==null||str.length()<2){
-			return '\0';
-			}
-		return str.charAt(str.length()-2);
+		return (str!=null&&str.length()>=2)? str.charAt(str.length()-2):'\0';
 		}
 	public int noOfOccurences(char character){
+		if(str==null){
+			return 0;
+			}
 		int noOfOcc=0;
 		for(int i=0;i<str.length();i++){
 			if(str.charAt(i)==character)
@@ -32,69 +36,71 @@ private String str;
 		return noOfOcc;
 	}
 	public int greatestPosition(char character){
-		int greatPos = str.lastIndexOf(character);
-		return greatPos;
+		return (str!=null)? str.lastIndexOf(character):-1;
 		}
-	public String lastFiveChar(){
-		if(str.length()<5){
-		return str;
-		}
-		String last_5 = str.substring(str.length() - 5);
-		return last_5;	
-	}
-	public String firstThreeChar(){
-		if(str.length()>=3){
-			String first_3 = str.substring(0,3);
-			return first_3;
-		}
-		else
-			return str;
+	public String lastFewCharacters(int noOfChar){
+		if(str==null||noOfChar<0){
+			return "";
 			}
-	public String replace(String replaced) {
-   		if (str.length() < 3){return null;}
-    		if (replaced.length() > 3) {
-        		if (str.length() == 3) {return replaced.substring(0, 3);}
-        		else{return replaced.substring(0, 3) + str.substring(3);}
-    		}
-    		return replaced + str.substring(replaced.length());
-    	}		
+		return (str.length() < noOfChar)? str : str.substring(str.length() - noOfChar);
+	}
+	public String firstFewCharacters(int noOfChar){
+		if(str==null||noOfChar<0){
+			return "";
+			}
+		return (str.length() >= noOfChar) ? str.substring(0, noOfChar) : str;
+			}
+	public String replacingChar(String replaced) {
+		if(str == null||replaced == null||replaced.equals("")){
+   			return null;
+   			}
+   		return (replaced.length()< str.length()) ? replaced + str.substring(replaced.length()) : replaced;
+   		}		
 	public boolean endWith(String ends){
-		return str.endsWith(ends);
+		return (ends!=null&&str!=null)? (str.endsWith(ends)? true:false): false;
 		}
-	public boolean startWith(String ends){
-		return str.startsWith(ends,0);
+	public boolean startWith(String starts){
+		return (starts!=null&&str!=null)? (str.startsWith(starts)? true:false): false;
 		}
 	public String upperCase(){
-		return str.toUpperCase();
+		return (str != null) ? str.toUpperCase() : null;
 		}
 	public String lowerCase(){
-		return str.toLowerCase();
+		return (str != null) ? str.toLowerCase() : null;
 		}
 	public String reverse(){
-		String reversedString="";
-		for(int i=str.length()-1;i>=0;i--)
-			reversedString += str.charAt(i);
-		 return reversedString;
+		if(str==null||str.isEmpty()){
+			return null;
+			}
+		char[] charArray = str.toCharArray();
+        	int left = 0;
+        	int right = charArray.length - 1;
+        	while (left < right) {
+            		char temp = charArray[left];
+            		charArray[left] = charArray[right];
+            		charArray[right] = temp;
+            		left++;
+            		right--;
+            		}
+            	return new String(charArray);
 		 }
 	public String removeSpaces(){
-		return str.replace(" ","");
+		return (str != null) ? str.replace(" ", "") : null;
 		}
-	public String[] convertToStringArr(){
-		return str.split(" ");
+	public String[] convertToStringArr(String seperator){
+		String regexSeperator=Pattern.quote(seperator);
+		return (str != null&&seperator!=null)?  str.split(regexSeperator):new String[0];
 		}
-	public static boolean compareIncludeCase(String firstString,String SecondString){
-		return firstString.equals(SecondString);
+	public static boolean compareIncludeCase(String firstString,String secondString){
+		return (firstString!=null&&secondString!=null)? firstString.equals(secondString) : false;
 		}
-	public static boolean compareExcludeCase(String firstString,String SecondString){
-		return firstString.equalsIgnoreCase(SecondString);
+	public static boolean compareExcludeCase(String firstString,String secondString){
+		return (firstString != null && secondString != null)? firstString.equalsIgnoreCase(secondString) : false;
 		}
 	public String noSpacesBeginEnd(){
-		return str.trim();
+		return (str != null) ? str.trim() : null;
 		}
-	public static String mergingStrings(ArrayList<String> stringArray){
-		String mergedArray = String.join("-",stringArray); 	
-		return mergedArray;
+	public static String mergingStrings(ArrayList<String> stringArray,String mergingChar){
+		return (stringArray != null && !stringArray.isEmpty())? String.join(mergingChar, stringArray) : "";
 	}
-		
-
 }
